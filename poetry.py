@@ -10,38 +10,33 @@ from bs4 import BeautifulSoup
 
 
 
-POEM_URL = "http://www.poemhunter.com"
-
-userinput = raw_input('Poems about what? ')
-
-poetrysearchqueryurl = "http://www.poemhunter.com/search/?q=" + userinput.replace(' ', '+')
+POEMHUNTER_URL = "http://www.poemhunter.com"
+POEMHUNTER_SEARCH = "http://www.poemhunter.com/search/?q="
 
 
-
-searchresultsresponseobject = requests.get(poetrysearchqueryurl)
-soup = BeautifulSoup(searchresultsresponseobject.text)
-
-lists = soup.findAll('a', href=re.compile(r'/poem/'))
-
+def page_source(url):
+	response = requests.get(url)
+	soup = BeautifulSoup(response.text, "html.parser")
+	return soup
 
 
-gets = [POEM_URL + i['href'] for i in lists]
-
-
-
-for url in gets:
+def main():
 	
-	poemresponseobject = requests.get(url)
-	soup = BeautifulSoup(poemresponseobject.text,)
-	poetry = soup.find('p', attrs={"class":None})
+	user_input = raw_input('Poems about what? ')
 
-	#print str(poetry.text).split(' ')
-	print poetry.text
+	poem_search_url = POEMHUNTER_SEARCH + user_input.replace(' ', '+')
+	search_results_soup = page_source(poem_search_url)
+    
+	poem_rel_urls = search_results_soup.findAll('a', href=re.compile(r'/poem/'))
+	poem_abs_urls = [POEMHUNTER_URL + i['href'] for i in poem_rel_urls]
 
+	for url in poem_abs_urls:
+		poem_soup = page_source(url)
+		poetry = poem_soup.find('p', attrs={"class":None})
+		print poetry.text
 
-
-
-
+if __name__ == "__main__":
+	main()
 
 
 
