@@ -1,6 +1,6 @@
 # dojo
 
-$ python poetry.py
+```$ python poetry.py
 
 What would you like to hear a poem about?  python
 
@@ -33,7 +33,7 @@ Dragged to the village paddy field with claps
 Trying to survey from the tops of pine trees,
 And mercilessly crushes the spirit.
 
-You're a Burmese python,
+You're a Burmese python,i```
 
 
 
