@@ -4,6 +4,16 @@
 
 # write a Poetry Generator...
 
+
+# to do:
+# create a poem title
+# do more with poem_soup
+#   - find occurrences of user_input
+#   - divide the poem into 3 blocks and always
+#     place a line containing user_input last in each?
+
+
+
 import random
 import requests
 import re
@@ -25,15 +35,15 @@ def page_source(url):
 
 def main():
 	# what shall we be searching for then?
-	user_input = raw_input('\nWhat would you like to hear a poem about?  ')
+	user_input = raw_input('\n What would you like to hear a poem about?  ')
 
 	# build URL to pass to page_source function
 	# and retrieve source HTML for parsing
 	poem_search_url = POEMHUNTER_SEARCH + user_input.replace(' ', '+')
 	search_results_soup = page_source(poem_search_url)
-    
-    # find specific 'poem' URLs from search results
-    # source and construct absolute URLs from relative paths
+
+	# find specific 'poem' URLs from search results
+	# source and construct absolute URLs from relative paths
 	poem_rel_urls = search_results_soup.findAll('a', href=re.compile(r'/poem/'))
 	poem_abs_urls = [POEMHUNTER_URL + i['href'] for i in poem_rel_urls]
 
