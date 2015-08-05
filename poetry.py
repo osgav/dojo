@@ -4,6 +4,7 @@
 
 # write a Poetry Generator...
 
+import random
 import requests
 import re
 from bs4 import BeautifulSoup
@@ -24,7 +25,7 @@ def page_source(url):
 
 def main():
 	# what shall we be searching for then?
-	user_input = raw_input('Poems about what? ')
+	user_input = raw_input('\nWhat would you like to hear a poem about?  ')
 
 	# build URL to pass to page_source function
 	# and retrieve source HTML for parsing
@@ -36,14 +37,35 @@ def main():
 	poem_rel_urls = search_results_soup.findAll('a', href=re.compile(r'/poem/'))
 	poem_abs_urls = [POEMHUNTER_URL + i['href'] for i in poem_rel_urls]
 
-	# grab the source HTML for the pages
-	# of each result from the search results page
-	# (the urls in list poem_abs_urls)
-	# and print the first <p> with no class attribute
+	# empty list to build the poem
+	poem_lines = []
+
+	# loading words
+	loading = ["hmmm...", "thinking...", user_input + "..."]
+
+	print "\n"
+
+	# for each of the poem webpage URLs
+	# print a random loading word, grab the page
+	# source HTML and extract the first <p> with
+	# no class attribute
+	# split the contents of the <p> tag by line 
+	# breaks (<br/>) and add the second line to
+	# poem_lines list
 	for url in poem_abs_urls:
+		print loading[random.randint(0,2)]
 		poem_soup = page_source(url)
 		poetry = poem_soup.find('p', attrs={"class":None})
-		print poetry.text
+		poem_lines.append(str(poetry).split('<br/>')[1])
+
+	print "\n Have you heard this one before?\n"
+
+	# write poetry
+	for line in poem_lines:
+		print line.strip()
+
+	print "\n"
+
 
 if __name__ == "__main__":
 	main()
