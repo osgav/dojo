@@ -34,9 +34,5 @@ Dragged to the village paddy field with claps
 Trying to survey from the tops of pine trees,
 And mercilessly crushes the spirit.
 
-You're a Burmese python,i
+You're a Burmese python,
 ```
-
-
-
-
